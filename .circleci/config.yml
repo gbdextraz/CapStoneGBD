@@ -7,7 +7,7 @@ version: 2.1
 executors:
   docker-publisher:
     environment:
-      DOCKER_IMAGE: gbdextraz/CapStone:latest
+      DOCKER_IMAGE: gbdextraz/capstone:latest
     docker:
       - image: docker:stable
 
@@ -37,7 +37,7 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
-        # run lint!
+      # run lint!
       - run:
           name: run lint
           command: |
@@ -47,7 +47,7 @@ jobs:
     executor: docker-publisher
     steps:
       - checkout
-      - setup_remote_cluster
+      - setup_remote_docker
       - run:
           name: Build Docker image
           command: docker build --tag capstone .
@@ -57,9 +57,8 @@ jobs:
       - run:
           name: Publish Docker image
           command: |
-            docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
+            docker login -u="${DOCKER_USER}" -p="${DOCKER_PASS}"
             docker push ${DOCKER_IMAGE}
-
 
 workflows:
   default:
