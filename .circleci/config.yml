@@ -81,7 +81,6 @@ jobs:
           resource-name: deployment/capstone
           show-kubectl-command: true
 
-
 workflows:
   default:
     jobs:
