@@ -84,7 +84,8 @@ jobs:
 workflows:
   default:
     jobs:
-      #- checklint
-      #- build_push:
-      #    requires: [checklint]
-      - deploy
+      - checklint
+      - build_push:
+          requires: [checklint]
+      - deploy:
+          requires: [build_push]
