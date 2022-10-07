@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        service: http-server
+        app: capstone
     spec:
       containers:
       - name: capstone
