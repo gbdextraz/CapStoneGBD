@@ -28,12 +28,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: capstone-service-cluster-ip
+  name: capstone-service-loadbalancer
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: capstone
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 8080
