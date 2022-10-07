@@ -50,7 +50,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build Docker image
-          command: docker build --tag capstone .
+          command: docker build --tag ${DOCKER_IMAGE} .
       - run:
           name: List docker images
           command: docker image ls
