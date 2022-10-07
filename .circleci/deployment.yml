@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: capstone
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        service: http-server
+    spec:
+      containers:
+      - name: capstone
+        image: gbdextraz/capstone:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
