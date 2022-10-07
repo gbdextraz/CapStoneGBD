@@ -3,8 +3,16 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 version: 2
+
+executors:
+  docker-publisher:
+    environment:
+      DOCKER_IMAGE: gbdextraz/CapStone:latest
+    docker:
+      - image: docker:stable
+
 jobs:
-  build:
+  checklint:
     docker:
 # Use the same Docker base as the project
       - image: python:3.7.3-stretch
@@ -35,3 +43,27 @@ jobs:
           command: |
             . venv/bin/activate
               make lint 
+  build_push:
+    executor: docker-publisher
+    steps:
+      - checkout
+      - setup_remote_cluster
+      - run:
+          name: Build Docker image
+          command: docker build --tag capstone .
+      - run:
+          name: List docker images
+          command: docker image ls
+      - run:
+          name: Publish Docker image
+          command: |
+            docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
+            docker push ${DOCKER_IMAGE}
+
+
+workflows:
+  default:
+    jobs:
+      - checklint
+      - build_push:
+          requires: [checklint]
