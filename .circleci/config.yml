@@ -65,7 +65,7 @@ jobs:
             docker push ${DOCKER_IMAGE}
   deploy:
     docker:
-      - image: 'cimg/python:3.10'
+      - image: 'cimg/base:stable'
     steps:
       - checkout
       - run:
@@ -77,8 +77,9 @@ jobs:
           install-kubectl: true
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
-          resource-file-path: deployment.yaml
+          resource-file-path: deployment.yml
           resource-name: deployment/capstone
+          show-kubectl-command: true
 
 
 workflows:
